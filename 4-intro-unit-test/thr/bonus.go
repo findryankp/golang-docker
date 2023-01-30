@@ -1,0 +1,5 @@
+package thr
+
+func HitungThr() {
+
+}
