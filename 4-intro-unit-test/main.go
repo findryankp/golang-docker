@@ -32,6 +32,9 @@ go test ./...
 
 go test ./... -coverprofile=cover.out && go tool cover -html=cover.out
 
+#jika html cover tidak muncul otomatis
+go test ./... -coverprofile=cover.out && go tool cover -html=cover.out -o cover.html
+
 */
 func main() {
 	var nama1 = "Budi"
