@@ -90,8 +90,26 @@ func main() {
 	pendidikan1.TahunMulai = 2018
 	pendidikan1.TahunSelesai = 2020
 
+	var pendidikan2 Pendidikan
+	pendidikan2.Nama = "SMP 1 Jakarta"
+	pendidikan2.Level = "SMP"
+	pendidikan2.TahunMulai = 2018
+	pendidikan2.TahunSelesai = 2020
+
 	var cv1 CV
 	cv1.Nama = "Andi"
+	cv1.DataPendidikan = append(cv1.DataPendidikan, pendidikan2)
 	cv1.DataPendidikan = append(cv1.DataPendidikan, pendidikan1)
 	fmt.Println(cv1.Nama, cv1.DataPendidikan[0].Nama)
+	fmt.Println(cv1.DataPendidikan)
+	fmt.Println(cv1.DataPendidikan[0].TahunMulai)
+
+	// tampilkan seluruh data pendidikan dari Andi
+	for i := 0; i < len(cv1.DataPendidikan); i++ {
+		fmt.Printf("Nama Sekolah: %s\nLevel: %s\n", cv1.DataPendidikan[i].Nama, cv1.DataPendidikan[i].Level)
+	}
+
+	for _, v := range cv1.DataPendidikan {
+		fmt.Printf("Nama Sekolah: %s\nLevel: %s\n", v.Nama, v.Level)
+	}
 }
