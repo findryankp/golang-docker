@@ -184,3 +184,60 @@ GROUP BY gr.id
 HAVING count(dm.id) = 1
 ORDER BY gr.id DESC
 LIMIT 2;
+
+-- SUBQUERY
+-- menampilkan list data mapel yang sudah ada pengampunya/guru nya
+SELECT id, guru_id, mapel_id, jam, hari from data_mengajar;
+select mapel_id from data_mengajar;
+select DISTINCT mapel_id from data_mengajar;
+
+
+SELECT id, nama_mapel, kkm, keterangan 
+from mata_pelajaran 
+where id IN (select DISTINCT mapel_id from data_mengajar);
+
+-- menampilkan list data mapel yang belum ada pengampunya/guru nya
+SELECT id, nama_mapel, kkm, keterangan 
+from mata_pelajaran 
+where id NOT IN (select DISTINCT mapel_id from data_mengajar);
+
+-- tampilkan list guru yang sudah mempunyai jam mengajar
+select id, nama, telepon, email 
+from guru
+where id IN (select distinct guru_id from data_mengajar);
+
+-- tampilkan data guru yang mengajar matematika kelas 1
+select distinct data_mengajar.guru_id from data_mengajar
+inner join mata_pelajaran ON data_mengajar.mapel_id=mata_pelajaran.id
+where mata_pelajaran.nama_mapel = 'Matematika Kelas 1';
+
+select id, nama, telepon, email 
+from guru
+where id IN (select distinct data_mengajar.guru_id from data_mengajar
+inner join mata_pelajaran ON data_mengajar.mapel_id=mata_pelajaran.id
+where mata_pelajaran.nama_mapel = 'Matematika Kelas 1');
+
+-- FUNCTION
+-- fungsi untuk menghitung banyaknya jam mengajar seorang guru
+DELIMITER $$
+CREATE FUNCTION sf_jam_mengajar_guru (guru_id_param char(10)) RETURNS INT DETERMINISTIC
+BEGIN
+DECLARE total INT;
+select count(id) into total from data_mengajar where guru_id = guru_id_param;
+RETURN total;
+END$$
+DELIMITER ;
+
+-- menampilkan semua function di db tertentu
+SHOW FUNCTION STATUS WHERE db = 'db_be15';
+
+-- menghapus function
+DROP FUNCTION `db_be15`.`sf_jam_mengajar_guru`;
+
+-- memanggil function yang telah dibuat
+select sf_jam_mengajar_guru('GR0004');
+
+select sf_jam_mengajar_guru('GR0001') as jam_mengajar, id, nama from guru where id = 'GR0001';
+
+
+

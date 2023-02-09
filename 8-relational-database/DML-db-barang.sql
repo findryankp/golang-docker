@@ -19,6 +19,9 @@ INSERT INTO receivers(product_id, user_id, address_id, notes)
 VALUES (1,3,3,"terima kasih banyak"),
 (2,4,4,"terima kasih");
 
+insert into users(id, name, email)
+values (1, "alta", "alta@mail.com");
+
 SELECT * FROM users;
 SELECT * FROM products;
 SELECT * FROM address;
@@ -35,4 +38,10 @@ INNER JOIN receivers rv ON rv.product_id=pd.id
 INNER JOIN users usrv ON rv.user_id=usrv.id;
 
 -- tampilkan semua product beserta nama owner dan nama receivernya dan alamat receivernya
+SELECT pd.id, pd.name "product_name", us.name "owner", rv.user_id, usrv.name "receiver", pd.description, ad.address FROM products pd
+INNER JOIN users us ON pd.user_id=us.id
+INNER JOIN receivers rv ON rv.product_id=pd.id
+INNER JOIN users usrv ON rv.user_id=usrv.id
+INNER JOIN address ad ON rv.address_id=ad.id;
+
 
