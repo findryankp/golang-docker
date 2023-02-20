@@ -239,5 +239,8 @@ select sf_jam_mengajar_guru('GR0004');
 
 select sf_jam_mengajar_guru('GR0001') as jam_mengajar, id, nama from guru where id = 'GR0001';
 
+-- sql injection
+SELECT * FROM mata_pelajaran WHERE id = 105 OR 1=1;
+
 
 
