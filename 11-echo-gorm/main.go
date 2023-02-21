@@ -22,6 +22,9 @@ type User struct {
 	Role     string `json:"role" form:"role"`
 }
 
+//buat struct book
+// https://gorm.io/docs/has_many.html
+
 var DB *gorm.DB
 
 // database connection
@@ -40,6 +43,7 @@ func InitDB() {
 
 func InitialMigration() {
 	DB.AutoMigrate(&User{})
+	//tambahkan auto migrate untuk book
 }
 
 func init() {
@@ -59,6 +63,15 @@ func main() {
 	// e.PUT("/users/:userid", UpdateUserController)
 	// DELETE
 	// e.DELETE("/users/:id", DeleteUserController)
+
+	// CRUD Book
+	//e.POST("/books", CreateBookController)
+	// e.GET("/books", GetAllBookController)
+	// PUT
+	// e.PUT("/books/:id", UpdateBookController)
+	// DELETE
+	// e.DELETE("/books/:id", DeleteBookController)
+
 	// start server
 	e.Logger.Fatal(e.Start(":80"))
 }
