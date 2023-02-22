@@ -2,6 +2,7 @@ package routes
 
 import (
 	"be15/mvc/controllers"
+	"be15/mvc/middlewares"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,6 +10,8 @@ import (
 func New() *echo.Echo {
 	e := echo.New()
 	// route
-	e.GET("/users", controllers.GetAllUserController)
+	e.GET("/users", controllers.GetAllUserController, middlewares.JWTMiddleware())
+	e.POST("/users", controllers.CreateUserController)
+
 	return e
 }

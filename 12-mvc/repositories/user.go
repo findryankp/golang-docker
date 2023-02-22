@@ -4,6 +4,7 @@ import (
 	"be15/mvc/config"
 	"be15/mvc/entities"
 	"be15/mvc/models"
+	"errors"
 )
 
 func GetAllUser() ([]entities.UserCore, error) {
@@ -29,4 +30,24 @@ func GetAllUser() ([]entities.UserCore, error) {
 	}
 
 	return userCoreAll, nil
+}
+
+func CreateUser(input entities.UserCore) error {
+	// proses mapping dari entities core ke gorm model
+	dataGorm := models.User{
+		Name:     input.Name,
+		Email:    input.Email,
+		Password: input.Password,
+		Address:  input.Address,
+		Role:     input.Role,
+	}
+	tx := config.DB.Create(&dataGorm) // proses query insert
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	if tx.RowsAffected == 0 {
+		return errors.New("insert error, row affected = 0")
+	}
+	return nil
 }
