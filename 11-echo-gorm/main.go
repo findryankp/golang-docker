@@ -71,6 +71,10 @@ func main() {
 	// e.PUT("/books/:id", UpdateBookController)
 	// DELETE
 	// e.DELETE("/books/:id", DeleteBookController)
+	// Get book by id
+	// e.GET("/books/:id", GetBookByIdController)
+	// e.GET("/books/users/:id", GetBookByIdController)
+	// e.GET("/users/:id/books", GetBookByIdController)
 
 	// start server
 	e.Logger.Fatal(e.Start(":80"))
