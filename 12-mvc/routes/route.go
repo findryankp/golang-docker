@@ -13,5 +13,6 @@ func New() *echo.Echo {
 	e.GET("/users", controllers.GetAllUserController, middlewares.JWTMiddleware())
 	e.POST("/users", controllers.CreateUserController)
 
+	e.POST("/login", controllers.LoginController)
 	return e
 }

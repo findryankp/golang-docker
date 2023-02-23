@@ -3,13 +3,18 @@ package controllers
 import (
 	"be15/mvc/entities"
 	"be15/mvc/helper"
+	"be15/mvc/middlewares"
 	"be15/mvc/repositories"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 func GetAllUserController(c echo.Context) error {
+	idToken := middlewares.ExtractTokenUserId(c)
+	fmt.Println("idtoken:", idToken)
+
 	result, err := repositories.GetAllUser()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponse("error read data"))
