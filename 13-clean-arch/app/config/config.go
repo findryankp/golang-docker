@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -65,13 +66,20 @@ func ReadEnv() *AppConfig {
 			log.Println("error read config : ", err.Error())
 			return nil
 		}
-		err = viper.Unmarshal(&app)
-		if err != nil {
-			log.Println("error parse config : ", err.Error())
-			return nil
-		}
+		// err = viper.Unmarshal(&app)
+		// if err != nil {
+		// 	log.Println("error parse config : ", err.Error())
+		// 	return nil
+		// }
+		app.jwtKey = viper.Get("JWT_KEY").(string)
+		app.DB_USERNAME = viper.Get("DBUSER").(string)
+		app.DB_PASSWORD = viper.Get("DBPASS").(string)
+		app.DB_HOSTNAME = viper.Get("DBHOST").(string)
+		app.DB_PORT, _ = strconv.Atoi(viper.Get("DBPORT").(string))
+		app.DB_NAME = viper.Get("DBNAME").(string)
 	}
 
 	SECRET_JWT = app.jwtKey
+	fmt.Println("check", app.jwtKey)
 	return &app
 }

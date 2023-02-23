@@ -10,7 +10,7 @@ import (
 	"be15/clean/app/config"
 )
 
-func InitDBMySql(cfg config.AppConfig) *gorm.DB {
+func InitDBPosgres(cfg config.AppConfig) *gorm.DB {
 	// declare struct config & variable connectionString
 	// connectionString := "root:qwerty123@tcp(127.0.0.1:3306)/db_book?charset=utf8&parseTime=True&loc=Local"
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
@@ -27,7 +27,7 @@ func InitDBMySql(cfg config.AppConfig) *gorm.DB {
 	return db
 }
 
-func InitialMigration(db *gorm.DB) {
+func InitialMigrationPosgres(db *gorm.DB) {
 	// db.AutoMigrate(&User{})
 	//tambahkan auto migrate untuk book
 }

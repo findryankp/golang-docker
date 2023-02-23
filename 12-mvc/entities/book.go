@@ -1,4 +1,4 @@
 package entities
 
-type Book struct {
+type BookCore struct {
 }
