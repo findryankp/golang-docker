@@ -22,8 +22,15 @@ func (repo *userQuery) Insert(input users.Core) error {
 
 // GetAll implements users.UserData
 func (repo *userQuery) SelectAll() ([]users.Core, error) {
-	panic("unimplemented")
-	// repo.db.Find()
+	var usersModel []User
+	tx := repo.db.Find(&usersModel)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	// mapping dari struct model ke core/entities
+	userCoreAll := ListModelToCore(usersModel)
+
+	return userCoreAll, nil
 }
 
 func New(db *gorm.DB) users.UserDataInterface {
