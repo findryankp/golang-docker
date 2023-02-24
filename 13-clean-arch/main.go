@@ -3,11 +3,10 @@ package main
 import (
 	"be15/clean/app/config"
 	"be15/clean/app/database"
-	_userData "be15/clean/features/users/data"
-	_userHandler "be15/clean/features/users/delivery"
-	_userService "be15/clean/features/users/service"
+	"be15/clean/app/router"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -16,12 +15,18 @@ func main() {
 	// db := database.InitDBPosgres(*cfg)
 
 	e := echo.New()
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
 
-	userData := _userData.New(db)
-	userService := _userService.New(userData)
-	userHandlerAPI := _userHandler.New(userService)
+	router.InitRouter(db, e)
+	// userData := _userData.New(db)
+	// userService := _userService.New(userData)
+	// userHandlerAPI := _userHandler.New(userService)
 
-	e.GET("/users", userHandlerAPI.GetAllUser)
+	// e.GET("/users", userHandlerAPI.GetAllUser)
+	// e.POST("/users", userHandlerAPI.Register)
 
 	e.Logger.Fatal(e.Start(":80"))
 }

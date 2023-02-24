@@ -4,8 +4,8 @@ import "time"
 
 type Core struct {
 	Id        uint
-	Name      string
-	Email     string
+	Name      string `validate:"required"`
+	Email     string `validate:"required,email"`
 	Password  string
 	Address   string
 	Role      string

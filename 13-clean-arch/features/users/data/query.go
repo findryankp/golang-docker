@@ -2,6 +2,7 @@ package data
 
 import (
 	"be15/clean/features/users"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -17,7 +18,16 @@ func (repo *userQuery) Delete(id int) error {
 
 // Create implements users.UserData
 func (repo *userQuery) Insert(input users.Core) error {
-	panic("unimplemented")
+	dataModel := CoreToModel(input)
+	tx := repo.db.Create(&dataModel) // proses query insert
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	if tx.RowsAffected == 0 {
+		return errors.New("insert error, row affected = 0")
+	}
+	return nil
 }
 
 // GetAll implements users.UserData

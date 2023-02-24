@@ -13,10 +13,15 @@ type userService struct {
 
 // Create implements users.UserServiceInterface
 func (service *userService) Create(input users.Core) error {
-	panic("unimplemented")
-	// if input.Email == "" || input.Password == "" {
-	// 	return errors.New("error")
-	// }
+	errValidate := service.validate.Struct(input)
+	if errValidate != nil {
+		return errValidate
+	}
+	errInsert := service.userData.Insert(input)
+	if errInsert != nil {
+		return errInsert
+	}
+	return nil
 }
 
 // GetAll implements users.UserServiceInterface

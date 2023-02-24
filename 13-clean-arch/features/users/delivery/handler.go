@@ -26,3 +26,19 @@ func (delivery *UserHandler) GetAllUser(c echo.Context) error {
 	dataResponse := listCoreToResponse(data)
 	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("berhasil membaca data user", dataResponse))
 }
+
+func (delivery *UserHandler) Register(c echo.Context) error {
+	userInput := UserRequest{}
+	errBind := c.Bind(&userInput) // menangkap inputan dari user melalui request body
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("error bind data"))
+	}
+	dataCore := requestToCore(userInput)
+	err := delivery.userService.Create(dataCore)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponse("error: "+err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessResponse("berhasil insert data user"))
+
+}
