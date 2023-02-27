@@ -1,6 +1,7 @@
 package data
 
 import (
+	_bookModel "be15/clean/features/books/data"
 	"be15/clean/features/users"
 
 	"gorm.io/gorm"
@@ -17,7 +18,19 @@ type User struct {
 	Password string
 	Address  string
 	Role     string
+	Books    []_bookModel.Book `gorm:"foreignKey:UserID;references:ID"`
 }
+
+// get all users
+// {
+// 	name: ...
+// 	email: ...
+// 	books: [
+// 		{
+// 			title: ..
+// 		}
+// 	]
+// }
 
 // mengubah dari struct core ke struct model
 func CoreToModel(dataCore users.Core) User {

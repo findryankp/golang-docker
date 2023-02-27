@@ -8,6 +8,8 @@ import (
 	"gorm.io/gorm"
 
 	"be15/clean/app/config"
+	_bookModel "be15/clean/features/books/data"
+	_userModel "be15/clean/features/users/data"
 )
 
 func InitDBMySql(cfg config.AppConfig) *gorm.DB {
@@ -28,6 +30,7 @@ func InitDBMySql(cfg config.AppConfig) *gorm.DB {
 }
 
 func InitialMigration(db *gorm.DB) {
-	// db.AutoMigrate(&User{})
+	db.AutoMigrate(&_userModel.User{})
+	db.AutoMigrate(&_bookModel.Book{})
 	//tambahkan auto migrate untuk book
 }

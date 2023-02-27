@@ -14,6 +14,9 @@ func main() {
 	db := database.InitDBMySql(*cfg)
 	// db := database.InitDBPosgres(*cfg)
 
+	// auto migrate gorm
+	database.InitialMigration(db)
+
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{

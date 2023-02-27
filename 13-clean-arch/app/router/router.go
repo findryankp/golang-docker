@@ -1,6 +1,9 @@
 package router
 
 import (
+	_bookData "be15/clean/features/books/data"
+	_bookHandler "be15/clean/features/books/delivery"
+	_bookService "be15/clean/features/books/service"
 	_userData "be15/clean/features/users/data"
 	_userHandler "be15/clean/features/users/delivery"
 	_userService "be15/clean/features/users/service"
@@ -14,6 +17,14 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	userService := _userService.New(userData)
 	userHandlerAPI := _userHandler.New(userService)
 
+	bookData := _bookData.New(db)
+	bookService := _bookService.New(bookData)
+	bookHandlerAPI := _bookHandler.New(bookService)
+
 	e.GET("/users", userHandlerAPI.GetAllUser)
 	e.POST("/users", userHandlerAPI.Register)
+
+	e.POST("/books", bookHandlerAPI.PostBook)
+	e.GET("/books", bookHandlerAPI.GetAllBook)
+	e.GET("/users/:id/books", bookHandlerAPI.GetBooksByUserId)
 }
