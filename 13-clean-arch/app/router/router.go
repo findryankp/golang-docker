@@ -21,6 +21,7 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	bookService := _bookService.New(bookData)
 	bookHandlerAPI := _bookHandler.New(bookService)
 
+	e.POST("/login", userHandlerAPI.Login)
 	e.GET("/users", userHandlerAPI.GetAllUser)
 	e.POST("/users", userHandlerAPI.Register)
 

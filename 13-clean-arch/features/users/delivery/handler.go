@@ -42,3 +42,22 @@ func (delivery *UserHandler) Register(c echo.Context) error {
 	return c.JSON(http.StatusOK, helper.SuccessResponse("berhasil insert data user"))
 
 }
+
+func (delivery *UserHandler) Login(c echo.Context) error {
+	loginInput := LoginRequest{}
+	errBind := c.Bind(&loginInput) // menangkap inputan dari user melalui request body
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("error bind data"))
+	}
+	data, token, err := delivery.userService.Login(loginInput.Email, loginInput.Password)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponse("error: "+err.Error()))
+	}
+
+	dataResponse := map[string]any{
+		"name":  data.Name,
+		"token": token,
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("berhasil login", dataResponse))
+}

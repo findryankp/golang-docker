@@ -1,6 +1,7 @@
 package data
 
 import (
+	"be15/clean/app/middlewares"
 	"be15/clean/features/users"
 	"errors"
 
@@ -9,6 +10,28 @@ import (
 
 type userQuery struct {
 	db *gorm.DB
+}
+
+// Login implements users.UserDataInterface
+func (repo *userQuery) Login(email string, password string) (users.Core, string, error) {
+	var userLogin User
+	tx := repo.db.Where("email = ? AND password = ?", email, password).First(&userLogin)
+	if tx.Error != nil {
+		return users.Core{}, "", tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return users.Core{}, "", errors.New("login failed")
+
+	}
+
+	token, errToken := middlewares.CreateToken(int(userLogin.ID))
+	if errToken != nil {
+		return users.Core{}, "", errToken
+	}
+
+	dataCore := ModelToCore(userLogin)
+	return dataCore, token, nil
+
 }
 
 // Delete implements users.UserDataInterface

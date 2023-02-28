@@ -41,6 +41,34 @@ func (_m *UserData) Insert(input users.Core) error {
 	return r0
 }
 
+// Login provides a mock function with given fields: email, password
+func (_m *UserData) Login(email string, password string) (users.Core, string, error) {
+	ret := _m.Called(email, password)
+
+	var r0 users.Core
+	if rf, ok := ret.Get(0).(func(string, string) users.Core); ok {
+		r0 = rf(email, password)
+	} else {
+		r0 = ret.Get(0).(users.Core)
+	}
+
+	var r1 string
+	if rf, ok := ret.Get(1).(func(string, string) string); ok {
+		r1 = rf(email, password)
+	} else {
+		r1 = ret.Get(1).(string)
+	}
+
+	var r2 error
+	if rf, ok := ret.Get(2).(func(string, string) error); ok {
+		r2 = rf(email, password)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // SelectAll provides a mock function with given fields:
 func (_m *UserData) SelectAll() ([]users.Core, error) {
 	ret := _m.Called()

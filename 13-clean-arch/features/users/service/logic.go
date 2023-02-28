@@ -2,6 +2,7 @@ package service
 
 import (
 	"be15/clean/features/users"
+	"errors"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -9,6 +10,15 @@ import (
 type userService struct {
 	userData users.UserDataInterface
 	validate *validator.Validate
+}
+
+// Login implements users.UserServiceInterface
+func (service *userService) Login(email string, password string) (users.Core, string, error) {
+	if email == "" || password == "" {
+		return users.Core{}, "", errors.New("email dan password harus diisi")
+	}
+	data, token, err := service.userData.Login(email, password)
+	return data, token, err
 }
 
 // Create implements users.UserServiceInterface
