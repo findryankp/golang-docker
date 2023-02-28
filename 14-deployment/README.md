@@ -31,22 +31,111 @@ sudo apt-get update
 sudo apt-get upgrade
 ```
 
-## Install Docker on Ubuntu Server
-```bash
-sudo apt install docker.io
-```
-Note: pastikan install berhasil dan kita sudah bisa menjalankan perintah `docker -v`
-
 ## Transfer File/Folfer to Server using SCP
 Tambahkan `-r` jika ingin transfer folder
 
 ```bash
 scp -i </direktori/ssh-key-private> </direktori/nama-file-transfer> <username>@<public-ip-server>:/home/fakhry
 
-example: folder
- scp -i ~/.ssh/sshgcpalta -r 14-deployment fakhry@34.172.127.177:/home/fakhry
+# example: folder
+ scp -i ~/.ssh/sshgcpalta -r 14-deployment fakhry@10.170.120.170:/home/fakhry
 
- file
- scp -i ~/.ssh/sshgcpalta 14-deployment/main.go fakhry@34.172.127.177:/home/fakhry
+ # file
+ scp -i ~/.ssh/sshgcpalta 14-deployment/main.go fakhry@10.170.120.170:/home/fakhry
+```
+
+
+# DOCKER
+
+## Install Docker on Ubuntu Server
+```bash
+sudo apt install docker.io
+```
+Note: pastikan install berhasil dan kita sudah bisa menjalankan perintah `docker -v`
+
+## Jika ada error (Permission Denied) ketika run docker di Ubuntu
+```bash
+sudo usermod -a -G docker ubuntu
+
+or
+
+sudo chmod 777 /var/run/docker.sock
+```
+
+## Build Docker Image
+```bash
+docker build -t <nama-image>:<tag> .
+
+# example
+docker build -t be15-images:latest .
+```
+
+## Show Image List
+```bash
+docker images
+
+docker images list
+```
+
+## Delete Docker Image
+```bash
+docker rmi <image-id>
+#or
+docker rmi <image-name>
+
+# example:
+docker rmi be15-images
+```
+
+## Create Docker Container
+Note:
+* -d digunakan agar app berjalan di background
+* host-port : isi dengan port yang akan digunakan di dockernya
+* container-port / app port: isi dengan port yang digunakan di app golang (di bagian e.Start())
+
+```bash
+docker run -d
+-p <host-port>:<container-port>
+-e <env-name>=<env-value>
+-e <env-name>=<env-value>
+-v <host-volume>:<container-volume>
+--name <container-name> <image-name>:<tag>
+
+# example:
+docker run -p 80:80 --name apiContainer api-images:latest
+
+# example with env
+docker run -d -p 80:80 -e JWT_KEY=blabla -e DBUSER=root -e DBPASS=abcdef -e DBHOST=10.10.20.30 -e DBPORT=3306 -e DBNAME=dbapi --name be15Clean be15clean-images:latest
+```
+
+## Show Container
+```bash
+# melihat container yang sedang running
+docker ps
+
+# melihat seluruh container, termasuk yang sedang stop
+docker ps -a
+```
+
+## Start/Stop Container
+```bash
+docker stop <container-name>
+
+docker start <container-name>
+```
+
+## Remove Docker Container
+```bash
+docker rm <container-name>
+
+docker rm <container-id>
+
+# example
+docker rm apiContainer
+```
+
+## Docker Logs Container
+```bash
+docker logs <container-name>
 ```
 
