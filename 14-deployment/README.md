@@ -24,3 +24,29 @@ Note:
 * untuk nama username di GCP, biasanya sesuai dengan nama alamat email kita. misal fakhry@gmail.com
 maka username instance kita adalah fakhry.
 * Untuk AWS, jika anda menggunakan ubuntu. maka username nya adalah ubuntu.
+
+## Update & Upgrade OS Ubuntu Instance
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+```
+
+## Install Docker on Ubuntu Server
+```bash
+sudo apt install docker.io
+```
+Note: pastikan install berhasil dan kita sudah bisa menjalankan perintah `docker -v`
+
+## Transfer File/Folfer to Server using SCP
+Tambahkan `-r` jika ingin transfer folder
+
+```bash
+scp -i </direktori/ssh-key-private> </direktori/nama-file-transfer> <username>@<public-ip-server>:/home/fakhry
+
+example: folder
+ scp -i ~/.ssh/sshgcpalta -r 14-deployment fakhry@34.172.127.177:/home/fakhry
+
+ file
+ scp -i ~/.ssh/sshgcpalta 14-deployment/main.go fakhry@34.172.127.177:/home/fakhry
+```
+
