@@ -1,0 +1,379 @@
+openapi: 3.0.3
+info:
+  title: ALTA API
+  version: 1.0.0
+  description: ALTA API Documentation
+  contact:
+    name: API Support
+    url: https://www.example.com/support
+    email: support@example.com
+externalDocs:
+  description: Find more info here
+  url: https://example.com
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/iffakhry/alta-api/1.0.0
+  - url: https://10.20.11.130:8080
+    description: Production server
+  - url: https://{environment}.gigantic-server.com/v1
+    description: Staging server
+    variables:
+      environment:
+        default: api
+        enum:
+          - "development"
+          - "staging"
+          - "api"
+paths:
+  /pets:
+    get:
+      description: Returns all pets from the system that the user has access to
+      responses:
+        '200':
+          description: A list of pets.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success get data"
+  /users:
+    post:
+      tags:
+        - Users
+      description: Menambah data User (register)
+      summary: add user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: "budi"
+                email: "budi@mail.com"
+                password: "qwerty"
+                phone: "0822349"
+                address: "surabaya"
+      responses:
+        '201':
+          description: Register berhasil.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "register berhasil"
+        '400':
+          description: Register gagal.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "failed"
+                  message: "register gagal. semua field wajib diisi"
+        '500':
+          $ref: '#/components/responses/500'
+          #description: Register gagal.
+          #content:
+            #application/json:
+              #schema:
+                #type: object
+                #example:
+                  #status: "failed"
+                  #message: "register gagal"
+    get:
+      tags:
+        - Users
+      summary: get all users
+      description: Melihat seluruh data user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: name
+          description: "nama user"
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "budi"
+        - name: address
+          description: "alamat user"
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "jakarta"
+        - name: limit
+          description: "limit"
+          required: false
+          in: query
+          schema:
+            type: integer
+            example: 10
+        - name: offset
+          description: "offset"
+          required: false
+          in: query
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success get all users"
+                  data:
+                    - id: 1
+                      name: "budi"
+                      email: "budi@mail.com"
+                      address: "surabaya"
+                    - id: 2
+                      name: "rudi"
+                      email: "rudi@mail.com"
+                      address: "surabaya"
+        '404':
+          $ref: '#/components/responses/404'
+
+  /users/{id_user}:
+    get:
+      tags:
+        - Users
+      summary: get all users
+      description: Melihat seluruh data user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id_user
+          description: "id user"
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success get all users"
+                  data:
+                    - id: 1
+                      name: "budi"
+                      email: "budi@mail.com"
+                      address: "surabaya"
+                    - id: 2
+                      name: "rudi"
+                      email: "rudi@mail.com"
+                      address: "surabaya"
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - Users
+      summary: delete users
+      description: Melihat seluruh data user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id_user
+          description: "id user"
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success delete users"
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - Users
+      summary: update users
+      description: Melihat seluruh data user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id_user
+          description: "id user"
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: "budi"
+                email: "budi@mail.com"
+                password: "qwerty"
+                phone: "0822349"
+                address: "surabaya"
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success delete users"
+        '404':
+          $ref: '#/components/responses/404'
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: get all users
+      description: Melihat seluruh data user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: name
+          description: "nama user"
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "budi"
+        - name: address
+          description: "alamat user"
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "jakarta"
+        - name: limit
+          description: "limit"
+          required: false
+          in: query
+          schema:
+            type: integer
+            example: 10
+        - name: offset
+          description: "offset"
+          required: false
+          in: query
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: "success"
+                  message: "success get all users"
+                  data:
+                    - id: 1
+                      name: "budi"
+                      email: "budi@mail.com"
+                      address: "surabaya"
+                    - id: 2
+                      name: "rudi"
+                      email: "rudi@mail.com"
+                      address: "surabaya"
+        '404':
+          $ref: '#/components/responses/404'
+
+####################################
+#  COMPONENTS
+####################################
+components:
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "use Token"
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - user
+        status:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    ResponseWithoutData:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  responses:
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/ResponseWithoutData'
+          example:
+            status: "failed"
+            message: "data not found"
+
+
+    '500':
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/ResponseWithoutData'
+          example:
+            status: "failed"
+            message: "internal server error"
+

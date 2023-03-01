@@ -7,6 +7,7 @@ import (
 	_userData "be15/clean/features/users/data"
 	_userHandler "be15/clean/features/users/delivery"
 	_userService "be15/clean/features/users/service"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -28,4 +29,10 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	e.POST("/books", bookHandlerAPI.PostBook)
 	e.GET("/books", bookHandlerAPI.GetAllBook)
 	e.GET("/users/:id/books", bookHandlerAPI.GetBooksByUserId)
+	e.GET("/hello", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, map[string]any{
+			"status":  "success",
+			"message": "hello world",
+		})
+	})
 }

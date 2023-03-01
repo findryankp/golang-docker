@@ -139,3 +139,12 @@ docker rm apiContainer
 docker logs <container-name>
 ```
 
+## Push Image to Docker Hub
+```bash
+docker login -u <username-dockerhub>
+
+docker build -t <username-dockerhub>/<image-name>:<tag> .
+
+docker push <username-dockerhub>/<image-name>
+```
+
