@@ -19,7 +19,7 @@ func TestGetAll(t *testing.T) {
 		repo.On("SelectAll").Return(returnData, nil).Once()
 
 		srv := New(repo)
-		response, err := srv.GetAll()
+		response, err := srv.GetAll(1)
 		assert.Nil(t, err)
 		assert.Equal(t, returnData[0].Name, response[0].Name)
 		repo.AssertExpectations(t)

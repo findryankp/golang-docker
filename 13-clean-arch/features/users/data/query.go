@@ -54,9 +54,9 @@ func (repo *userQuery) Insert(input users.Core) error {
 }
 
 // GetAll implements users.UserData
-func (repo *userQuery) SelectAll() ([]users.Core, error) {
+func (repo *userQuery) SelectAll(limit int, offset int) ([]users.Core, error) {
 	var usersModel []User
-	tx := repo.db.Find(&usersModel)
+	tx := repo.db.Limit(limit).Offset(offset).Find(&usersModel)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

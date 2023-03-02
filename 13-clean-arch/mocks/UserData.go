@@ -69,13 +69,13 @@ func (_m *UserData) Login(email string, password string) (users.Core, string, er
 	return r0, r1, r2
 }
 
-// SelectAll provides a mock function with given fields:
-func (_m *UserData) SelectAll() ([]users.Core, error) {
-	ret := _m.Called()
+// SelectAll provides a mock function with given fields: limit, offset
+func (_m *UserData) SelectAll(limit int, offset int) ([]users.Core, error) {
+	ret := _m.Called(limit, offset)
 
 	var r0 []users.Core
-	if rf, ok := ret.Get(0).(func() []users.Core); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int, int) []users.Core); ok {
+		r0 = rf(limit, offset)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]users.Core)
@@ -83,8 +83,8 @@ func (_m *UserData) SelectAll() ([]users.Core, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(limit, offset)
 	} else {
 		r1 = ret.Error(1)
 	}

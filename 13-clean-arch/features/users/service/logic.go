@@ -35,8 +35,17 @@ func (service *userService) Create(input users.Core) error {
 }
 
 // GetAll implements users.UserServiceInterface
-func (service *userService) GetAll() ([]users.Core, error) {
-	data, err := service.userData.SelectAll()
+func (service *userService) GetAll(page int) ([]users.Core, error) {
+	/*
+		limit = 10
+		page = 1 --> data ke 1 - 10 --> offset = 0
+		page = 2 --> data ke 11 - 20 --> offset = 10
+		page = 3 --> data ke 21 - 30 --> offset = 20
+	*/
+	var limit = 2
+	var offset = (page - 1) * limit
+
+	data, err := service.userData.SelectAll(limit, offset)
 	return data, err
 }
 

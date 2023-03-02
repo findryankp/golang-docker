@@ -4,6 +4,7 @@ import (
 	"be15/clean/features/users"
 	"be15/clean/utils/helper"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,7 +20,17 @@ func New(srv users.UserServiceInterface) *UserHandler {
 }
 
 func (delivery *UserHandler) GetAllUser(c echo.Context) error {
-	data, err := delivery.userService.GetAll()
+	var pageNumber int = 1
+	pageParam := c.QueryParam("page")
+	if pageParam != "" {
+		pageConv, errConv := strconv.Atoi(pageParam)
+		if errConv != nil {
+			return c.JSON(http.StatusInternalServerError, helper.FailedResponse("page harus number"))
+		} else {
+			pageNumber = pageConv
+		}
+	}
+	data, err := delivery.userService.GetAll(pageNumber)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponse("error read data"))
 	}
